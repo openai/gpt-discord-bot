@@ -6,7 +6,7 @@ import logging
 logger = logging.getLogger(__name__)
 from src.base import Message
 from discord import Message as DiscordMessage
-from typing import Optional
+from typing import Optional, List
 import discord
 
 from src.constants import MAX_CHARS_PER_REPLY_MSG, INACTIVATE_THREAD_PREFIX
@@ -28,7 +28,7 @@ def discord_message_to_message(message: DiscordMessage) -> Optional[Message]:
     return None
 
 
-def split_into_shorter_messages(message: str) -> list[str]:
+def split_into_shorter_messages(message: str) -> List[str]:
     return [
         message[i : i + MAX_CHARS_PER_REPLY_MSG]
         for i in range(0, len(message), MAX_CHARS_PER_REPLY_MSG)
