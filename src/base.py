@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from typing import Optional
+from typing import Optional, List
 
 SEPARATOR_TOKEN = "<|endoftext|>"
 
@@ -18,7 +18,7 @@ class Message:
 
 @dataclass
 class Conversation:
-    messages: list[Message]
+    messages: List[Message]
 
     def prepend(self, message: Message):
         self.messages.insert(0, message)
@@ -34,13 +34,13 @@ class Conversation:
 class Config:
     name: str
     instructions: str
-    example_conversations: list[Conversation]
+    example_conversations: List[Conversation]
 
 
 @dataclass(frozen=True)
 class Prompt:
     header: Message
-    examples: list[Conversation]
+    examples: List[Conversation]
     convo: Conversation
 
     def render(self):

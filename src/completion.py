@@ -2,7 +2,7 @@ from enum import Enum
 from dataclasses import dataclass
 import openai
 from src.moderation import moderate_message
-from typing import Optional
+from typing import Optional, List
 from src.constants import (
     BOT_INSTRUCTIONS,
     BOT_NAME,
@@ -37,7 +37,7 @@ class CompletionData:
 
 
 async def generate_completion_response(
-    messages: list[Message], user: str
+    messages: List[Message], user: str
 ) -> CompletionData:
     try:
         prompt = Prompt(
