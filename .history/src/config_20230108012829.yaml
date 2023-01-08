@@ -44,13 +44,11 @@ example_conversations:
  Introduction of mechanisms that optimise for the public good like [quadratic voting and funding], democratic tax allocation, and [Harbinger taxes]
  Increased liquidity and access by lowering transaction costs and bar to entry
 
-- messages:
 - user: What does CityDAO do?
 - text: - Purchase, rent, lease, sell and manage land.
 - Maximise the public good via taxes, voting, and policy
 - Resolve conflicts that arise between parties like boundaries, natural resources, and allowed land uses
 
-- messages:
 - user: What is the mission of CityDAO
 - text: CityDAO’s mission is to help build on-chain, community-governed crypto cities and organisations of the future.
 
@@ -94,8 +92,7 @@ example_conversations:
 - messages:
 - user: Who owns CityDAO 
 - text: CityDAO is a DAO (Decentralised autonomous organisation) and is governed algorithmically by a smart contract that votes on its activities. There is no "owner" of Citydao and instead, this NFT smart contract algorithmically manages a DAO LLC in Wyoming that is controlled by a multi-signature contract.
-
-- messages:
+-messages:
 - user: Why would i buy a Citizen NFT?
 - text: Buying a Citizen NFT grants you the right to participate in the governance of CityDAO. Citizens can vote on proposals, receive rewards for their contributions, and access exclusive benefits.
 
@@ -137,6 +134,6 @@ example_conversations:
 - user: What type of voting mechanism does citydao use?
 - text: CityDAO uses a custom quadratic voting strategy that counts the square root of tokens in a user's wallet.
 
-- messages:
+- messages: 
 - user: What is DAOLabs? 
 - text: DAOLabs is a network of Web3 spaces that provide free access to Citizens of CityDAO , starting with Denver, CO.

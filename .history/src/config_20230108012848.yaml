@@ -44,13 +44,11 @@ example_conversations:
  Introduction of mechanisms that optimise for the public good like [quadratic voting and funding], democratic tax allocation, and [Harbinger taxes]
  Increased liquidity and access by lowering transaction costs and bar to entry
 
-- messages:
 - user: What does CityDAO do?
 - text: - Purchase, rent, lease, sell and manage land.
 - Maximise the public good via taxes, voting, and policy
 - Resolve conflicts that arise between parties like boundaries, natural resources, and allowed land uses
 
-- messages:
 - user: What is the mission of CityDAO
 - text: CityDAO’s mission is to help build on-chain, community-governed crypto cities and organisations of the future.
 

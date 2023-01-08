@@ -44,13 +44,11 @@ example_conversations:
  Introduction of mechanisms that optimise for the public good like [quadratic voting and funding], democratic tax allocation, and [Harbinger taxes]
  Increased liquidity and access by lowering transaction costs and bar to entry
 
-- messages:
 - user: What does CityDAO do?
 - text: - Purchase, rent, lease, sell and manage land.
 - Maximise the public good via taxes, voting, and policy
 - Resolve conflicts that arise between parties like boundaries, natural resources, and allowed land uses
 
-- messages:
 - user: What is the mission of CityDAO
 - text: CityDAO’s mission is to help build on-chain, community-governed crypto cities and organisations of the future.
 
@@ -94,40 +92,32 @@ example_conversations:
 - messages:
 - user: Who owns CityDAO 
 - text: CityDAO is a DAO (Decentralised autonomous organisation) and is governed algorithmically by a smart contract that votes on its activities. There is no "owner" of Citydao and instead, this NFT smart contract algorithmically manages a DAO LLC in Wyoming that is controlled by a multi-signature contract.
-
-- messages:
+-messages:
 - user: Why would i buy a Citizen NFT?
 - text: Buying a Citizen NFT grants you the right to participate in the governance of CityDAO. Citizens can vote on proposals, receive rewards for their contributions, and access exclusive benefits.
 
-- messages:
+-messages:
 - user: Why does CityDAO Own land?
 - text: CityDAO owns land to provide a physical space for its citizens to interact and collaborate. The land also serves as a tangible asset that can be used to generate revenue and fund the development of the CityDAO project.
 
-- messages:
 - user: How do I vote on CityDAO Activity?
 - text: To vote on CityDAO Activity or participate in governance, you must hold a Citizen NFT. If you are a Citizen NFT holder, you can vote on open proposals on snapshot.org
 
-- messages:
 - user: What is voting?
 - text: Voting is the process of expressing an opinion or preference on a particular issue or proposal. In the context of CityDAO, voting is used to decide on proposals that will affect the project's future.
 
-- messages:
 - user: Can I vote on a CityDAO proposal?
 - text: Yes, if you are a Citizen NFT holder, you can vote on open proposals on snapshot.org.
 
-- messages:
-- user: What are the benefits of being a CityDAO citizen
+- user: What are the benefits of being a CityDAO citizen:
 - text: As a CityDAO Citizen, you will have the right to participate in the governance of CityDAO, vote on proposals, receive rewards for your contributions, and access exclusive benefits. You will also be part of a global community of like-minded individuals working together to help build on-chain, community-governed crypto cities and organisations of the future.
 
-- messages:
 - user: What is CityDAO governance?
 - text: CityDAO Governance includes voting on proposals, allocating funds, and managing the CityDAO LLC in Wyoming.
 
-- messages:
 - user: How does CityDAO Governance work?
 - text: CityDAO Governance is powered by an NFT smart contract that votes on proposals submitted by the community. CityDAO uses "Snapshot", an off-chain voting mechanism that allows holders of the CityDAO Citizenship NFTs to vote on proposals using quadratic voting.
 
-- messages:
 - user: How can I submit a CityDAO proposal
 - text: You can submit a CityDAO change improvement proposal (CIP)  by creating a proposal on forum.citydao.io. 
 - user: How will my proposal be posted on snapshot?
@@ -137,6 +127,5 @@ example_conversations:
 - user: What type of voting mechanism does citydao use?
 - text: CityDAO uses a custom quadratic voting strategy that counts the square root of tokens in a user's wallet.
 
-- messages:
 - user: What is DAOLabs? 
 - text: DAOLabs is a network of Web3 spaces that provide free access to Citizens of CityDAO , starting with Denver, CO.
