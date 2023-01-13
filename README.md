@@ -30,6 +30,12 @@ This repo is not accepting pull requests. Please fork this repo if you want to a
     python -m src.main
     ```
     You should see an invite URL in the console. Copy and paste it into your browser to add the bot to your server.
+# Docker Quick Setup
+1. Copy `.env.example` to `.env` and start filling in the values as detailed below
+```
+docker build -t docker-openaigptbot .
+docker run -v './env':'/gpt-discord-bot/.env'
+```
 
 # Optional configuration
 
