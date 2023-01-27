@@ -14,6 +14,8 @@ CONFIG: Config = dacite.from_dict(
     Config, yaml.safe_load(open(os.path.join(SCRIPT_DIR, "config.yaml"), "r"))
 )
 
+#ok, so I'm going to have to figure out how to dynamically change the config that gets booted in
+# also, the WorldBuilder bot's name is Tarn
 BOT_NAME = CONFIG.name
 BOT_INSTRUCTIONS = CONFIG.instructions
 EXAMPLE_CONVOS = CONFIG.example_conversations

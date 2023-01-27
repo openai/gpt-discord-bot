@@ -51,6 +51,7 @@ async def on_ready():
                 messages.append(m)
         completion.MY_BOT_EXAMPLE_CONVOS.append(Conversation(messages=messages))
     await tree.sync()
+# the WorldBuilder bot's name is Tarn
 
 
 # /chat message:
