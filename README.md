@@ -1,5 +1,6 @@
 # Please read!
 
+
 **For any problems running this specific bot:** [Discord Project Post](https://discord.com/channels/974519864045756446/1055336272543092757)
 
 **For general OpenAI API problems or questions:** [Discord API Discussions](https://discord.com/channels/974519864045756446/1037561178286739466)
@@ -16,6 +17,8 @@ Thank you!
 # GPT Discord Bot
 
 Example Discord bot written in Python that uses the [completions API](https://beta.openai.com/docs/api-reference/completions) to have conversations with the `text-davinci-003` model, and the [moderations API](https://beta.openai.com/docs/api-reference/moderations) to filter the messages.
+
+**THIS IS NOT CHATGPT.**
 
 This bot uses the [OpenAI Python Library](https://github.com/openai/openai-python) and [discord.py](https://discordpy.readthedocs.io/).
 
