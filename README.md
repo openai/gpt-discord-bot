@@ -49,6 +49,7 @@ This bot uses the [OpenAI Python Library](https://github.com/openai/openai-pytho
     python -m src.main
     ```
     You should see an invite URL in the console. Copy and paste it into your browser to add the bot to your server.
+    Note: make sure you are using Python 3.9+ (check with python --version)
 
 # Optional configuration
 
