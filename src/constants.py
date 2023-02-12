@@ -1,8 +1,12 @@
+from dotenv import load_dotenv
 import os
 import dacite
 import yaml
 from typing import Dict, List
 from src.base import Config
+
+load_dotenv()
+
 
 # load config.yaml
 SCRIPT_DIR = os.path.dirname(os.path.realpath(__file__))
