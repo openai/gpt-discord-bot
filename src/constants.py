@@ -1,12 +1,8 @@
-from dotenv import load_dotenv
 import os
 import dacite
 import yaml
 from typing import Dict, List
 from src.base import Config
-
-load_dotenv()
-
 
 # load config.yaml
 SCRIPT_DIR = os.path.dirname(os.path.realpath(__file__))
@@ -23,9 +19,9 @@ DISCORD_CLIENT_ID = os.environ["DISCORD_CLIENT_ID"]
 OPENAI_API_KEY = os.environ["OPENAI_API_KEY"]
 
 ALLOWED_SERVER_IDS: List[int] = []
-server_ids = os.environ["ALLOWED_SERVER_IDS"].split(",")
+server_ids = os.environ["ALLOWED_SERVER_ID"].split(",")
 for s in server_ids:
-    ALLOWED_SERVER_IDS.append(int(s))
+    ALLOWED_SERVER_ID.append(int(s))
 
 SERVER_TO_MODERATION_CHANNEL: Dict[int, int] = {}
 server_channels = os.environ.get("SERVER_TO_MODERATION_CHANNEL", "").split(",")
