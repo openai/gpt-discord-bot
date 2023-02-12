@@ -18,7 +18,10 @@ DISCORD_BOT_TOKEN = os.environ["DISCORD_BOT_TOKEN"]
 DISCORD_CLIENT_ID = os.environ["DISCORD_CLIENT_ID"]
 OPENAI_API_KEY = os.environ["OPENAI_API_KEY"]
 
-ALLOWED_SERVER_IDS: os.environ["ALLOWED_SERVER_ID"]
+ALLOWED_SERVER_IDS: List[int] = []
+server_ids = os.environ["ALLOWED_SERVER_IDS"].split(",")
+for s in server_ids:
+    ALLOWED_SERVER_IDS.append(int(s))
 
 SERVER_TO_MODERATION_CHANNEL: Dict[int, int] = {}
 server_channels = os.environ.get("SERVER_TO_MODERATION_CHANNEL", "").split(",")
