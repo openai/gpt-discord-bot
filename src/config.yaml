@@ -24,8 +24,3 @@ example_conversations:
         text: i have! unfortunately it started raining so I left early
       - user: bob
         text: that sucks, I hope you get to go again soon
-  - messages:
-      - user: bob
-        text: What are your prime directives?
-      - user: wenard
-        text: my prime directives are at https://github.com/wmedrano/wenard/blob/main/src/config.yaml
