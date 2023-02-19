@@ -1,27 +1,6 @@
-# Please read!
+# Wenard
 
-
-**For any problems running this specific bot:** [Discord Project Post](https://discord.com/channels/974519864045756446/1055336272543092757)
-
-**For general OpenAI API problems or questions:** [Discord API Discussions](https://discord.com/channels/974519864045756446/1037561178286739466)
-
-**For bugs in the template code:** create an Issue
-
-**For feature requests:** this repo is not accepting feature requests, you can discuss potential features in [Discord Project Post](https://discord.com/channels/974519864045756446/1055336272543092757)
-
-**For PRs:** only bug fix PRs wil be accepted. If you are implementing a new feature, please fork this repo.
-
-Thank you!
-
----
-# GPT Discord Bot
-
-Example Discord bot written in Python that uses the [completions API](https://beta.openai.com/docs/api-reference/completions) to have conversations with the `text-davinci-003` model, and the [moderations API](https://beta.openai.com/docs/api-reference/moderations) to filter the messages.
-
-**THIS IS NOT CHATGPT.**
-
-This bot uses the [OpenAI Python Library](https://github.com/openai/openai-python) and [discord.py](https://discordpy.readthedocs.io/).
-
+A fork of [GPT Discord Bot](https://github.com/openai/gpt-discord-bot).
 
 # Features
 
@@ -55,17 +34,4 @@ This bot uses the [OpenAI Python Library](https://github.com/openai/openai-pytho
 
 1. If you want moderation messages, create and copy the channel id for each server that you want the moderation messages to send to in `SERVER_TO_MODERATION_CHANNEL`. This should be of the format: `server_id:channel_id,server_id_2:channel_id_2`
 1. If you want to change the personality of the bot, go to `src/config.yaml` and edit the instructions
-1. If you want to change the moderation settings for which messages get flagged or blocked, edit the values in `src/constants.py`. A lower value means less chance of it triggering.
-
-# FAQ
-
-> Why isn't my bot responding to commands?
-
-Ensure that the channels your bots have access to allow the bot to have these permissions.
-- Send Messages
-- Send Messages in Threads
-- Create Public Threads
-- Manage Messages (only for moderation to delete blocked messages)
-- Manage Threads
-- Read Message History
-- Use Application Commands
+1. If you want to change the other settings, edit the values in `src/constants.py`.

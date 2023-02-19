@@ -74,7 +74,7 @@ async def generate_completion_response(
 
 
 async def process_response(
-    user: str, thread: discord.Thread, response_data: CompletionData
+    thread: discord.Thread, response_data: CompletionData
 ):
     status = response_data.status
     reply_text = response_data.reply_text

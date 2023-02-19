@@ -99,7 +99,7 @@ async def chat_command(int: discord.Interaction, message: str):
             )
             # send the result
             await process_response(
-                user=user, thread=thread, response_data=response_data
+                thread=thread, response_data=response_data
             )
     except Exception as e:
         logger.exception(e)
@@ -181,8 +181,7 @@ async def on_message(message: DiscordMessage):
 
         # send response
         await process_response(
-            user=message.author, thread=thread, response_data=response_data
-        )
+            thread=thread, response_data=response_data)
     except Exception as e:
         logger.exception(e)
 
