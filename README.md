@@ -6,12 +6,21 @@ A fork of [GPT Discord Bot](https://github.com/openai/gpt-discord-bot).
 
 # Features
 
+wenard is powered by GPT3 by OpenAI. You can customize the bot instructions by
+modifying `config.yaml`. You can change the model, the hardcoded value is
+`text-davinci-003`.
+
+## `/chat`
+
 - `/chat` starts a public thread, with a `message` argument which is the first user message passed to the bot
 - The model will generate a reply for every user message in any threads started with `/chat`
 - The entire thread will be passed to the model for each request, so the model will remember previous messages in the thread
-- when the context limit is reached, or a max message count is reached in the thread, bot will close the thread
-- you can customize the bot instructions by modifying `config.yaml`
-- you can change the model, the hardcoded value is `text-davinci-003`
+- When the context limit is reached, or a max message count is reached in the thread, bot will close the thread.
+
+## `/wenard`
+
+- `/wenard` asks wenard to respond to the last message in the channel.
+- It has no context of the messages before.
 
 # Setup
 
@@ -31,8 +40,3 @@ A fork of [GPT Discord Bot](https://github.com/openai/gpt-discord-bot).
     ```
     You should see an invite URL in the console. Copy and paste it into your browser to add the bot to your server.
     Note: make sure you are using Python 3.9+ (check with python --version)
-
-# Optional configuration
-
-1. If you want to change the personality of the bot, go to `src/config.yaml` and edit the instructions
-1. If you want to change the other settings, edit the values in `src/constants.py`.

@@ -68,7 +68,35 @@ async def cornerstone_command(interaction: discord.Interaction):
         logger.exception(e)
 
 
-@tree.command(name="chat", description="Create a new thread for conversation")
+@tree.command(name="wenard", description="wenard will reply to the last comment.")
+@discord.app_commands.checks.has_permissions(send_messages=True)
+@discord.app_commands.checks.has_permissions(view_channel=True)
+@discord.app_commands.checks.bot_has_permissions(send_messages=True)
+@discord.app_commands.checks.bot_has_permissions(view_channel=True)
+async def wenard_command(interaction: discord.Interaction):
+    try:
+        if not should_allow(guild=interaction.guild):
+            return
+        last_message = await interaction.channel.fetch_message(
+            interaction.channel.last_message_id)
+        logger.info(
+            f"/wenard triggered by {interaction.user} for {last_message.author.name}: {last_message.content[:20]}")
+        message = Message(
+            user=last_message.author.name, text=last_message.content)
+        await interaction.response.defer()
+        async with interaction.channel.typing():
+            response_data = await generate_completion_response(messages=[message], user=interaction.user)
+            reply = ''
+            if response_data.status == completion.CompletionResult.OK:
+                reply = response_data.reply_text
+            else:
+                reply = f"I've hit my limits. {response_data.status_text}"
+            await interaction.followup.send(content=reply)
+    except Exception as e:
+        logger.exception(e)
+
+
+@tree.command(name="chat", description="Create a new thread for conversation.")
 @discord.app_commands.checks.has_permissions(send_messages=True)
 @discord.app_commands.checks.has_permissions(view_channel=True)
 @discord.app_commands.checks.bot_has_permissions(send_messages=True)
@@ -78,13 +106,11 @@ async def chat_command(interaction: discord.Interaction, message: str):
     try:
         if not isinstance(interaction.channel, discord.TextChannel):
             return
-
-        # block servers not in allow list
         if not should_allow(guild=interaction.guild):
             return
 
         user = interaction.user
-        logger.info(f"Chat command by {user} {message[:20]}")
+        logger.info(f"/chat triggered by {user} {message[:20]}")
         try:
             embed = discord.Embed(
                 description=f"<@{user.id}> wants to chat! 🤖💬",
@@ -153,7 +179,6 @@ async def on_message(message: DiscordMessage):
             or thread.locked
             or not thread.name.startswith(ACTIVATE_THREAD_PREFX)
         ):
-            # ignore this thread
             return
 
         if thread.message_count > MAX_THREAD_MESSAGES:

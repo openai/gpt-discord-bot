@@ -72,7 +72,7 @@ async def process_response(
     status = response_data.status
     reply_text = response_data.reply_text
     status_text = response_data.status_text
-    if status is CompletionResult.OK or status is CompletionResult.MODERATION_FLAGGED:
+    if status is CompletionResult.OK:
         if not reply_text:
             await thread.send(
                 embed=discord.Embed(
