@@ -2,6 +2,8 @@
 
 A fork of [GPT Discord Bot](https://github.com/openai/gpt-discord-bot).
 
+<img src="resources/profile.png" width="256" height="256">
+
 # Features
 
 - `/chat` starts a public thread, with a `message` argument which is the first user message passed to the bot
