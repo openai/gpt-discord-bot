@@ -4,6 +4,7 @@ import logging
 from src.base import Message, Conversation
 from src.constants import (
     BOT_INVITE_URL,
+    CONFIG,
     DISCORD_BOT_TOKEN,
     EXAMPLE_CONVOS,
     ACTIVATE_THREAD_PREFX,
@@ -20,6 +21,7 @@ from src.utils import (
 )
 from src import completion
 from src.completion import generate_completion_response, process_response
+import pprint
 
 logging.basicConfig(
     format="[%(asctime)s] [%(filename)s:%(lineno)d] %(message)s", level=logging.INFO
@@ -48,24 +50,45 @@ async def on_ready():
     await tree.sync()
 
 
-# /chat message:
+@tree.command(name="cornerstone", description="Print out wenard's prime directives.")
+@discord.app_commands.checks.has_permissions(send_messages=True)
+@discord.app_commands.checks.has_permissions(view_channel=True)
+@discord.app_commands.checks.bot_has_permissions(send_messages=True)
+@discord.app_commands.checks.bot_has_permissions(view_channel=True)
+@discord.app_commands.checks.bot_has_permissions(manage_threads=True)
+async def cornerstone_command(interaction: discord.Interaction):
+    try:
+        if not isinstance(interaction.channel, discord.TextChannel):
+            return
+        if not should_allow(guild=interaction.guild):
+            return
+        embed = discord.Embed(
+            description=f"🤖💬 My name is wenard and my primary directive is:\n`{CONFIG.instructions}`",
+            color=discord.Color.blue(),
+        )
+        embed.add_field(name=interaction.user.name,
+                        value=f"For a full list of my configuration, go to https://github.com/wmedrano/wenard/blob/main/src/config.yaml.")
+        await interaction.response.send_message(embed=embed)
+    except Exception as e:
+        logger.exception(e)
+
+
 @tree.command(name="chat", description="Create a new thread for conversation")
 @discord.app_commands.checks.has_permissions(send_messages=True)
 @discord.app_commands.checks.has_permissions(view_channel=True)
 @discord.app_commands.checks.bot_has_permissions(send_messages=True)
 @discord.app_commands.checks.bot_has_permissions(view_channel=True)
 @discord.app_commands.checks.bot_has_permissions(manage_threads=True)
-async def chat_command(int: discord.Interaction, message: str):
+async def chat_command(interaction: discord.Interaction, message: str):
     try:
-        # only support creating thread in text channel
-        if not isinstance(int.channel, discord.TextChannel):
+        if not isinstance(interaction.channel, discord.TextChannel):
             return
 
         # block servers not in allow list
-        if not should_allow(guild=int.guild):
+        if not should_allow(guild=interaction.guild):
             return
 
-        user = int.user
+        user = interaction.user
         logger.info(f"Chat command by {user} {message[:20]}")
         try:
             embed = discord.Embed(
@@ -74,12 +97,12 @@ async def chat_command(int: discord.Interaction, message: str):
             )
             embed.add_field(name=user.name, value=message)
 
-            await int.response.send_message(embed=embed)
-            response = await int.original_response()
+            await interaction.response.send_message(embed=embed)
+            response = await interaction.original_response()
 
         except Exception as e:
             logger.exception(e)
-            await int.response.send_message(
+            await interaction.response.send_message(
                 f"Failed to start chat {str(e)}", ephemeral=True
             )
             return
@@ -103,7 +126,7 @@ async def chat_command(int: discord.Interaction, message: str):
             )
     except Exception as e:
         logger.exception(e)
-        await int.response.send_message(
+        await interaction.response.send_message(
             f"Failed to start chat {str(e)}", ephemeral=True
         )
 
@@ -184,6 +207,5 @@ async def on_message(message: DiscordMessage):
             thread=thread, response_data=response_data)
     except Exception as e:
         logger.exception(e)
-
 
 client.run(DISCORD_BOT_TOKEN)
