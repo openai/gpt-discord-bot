@@ -13,7 +13,7 @@ from src.constants import (
 import asyncio
 from src.utils import (
     logger,
-    should_block,
+    should_allow,
     close_thread,
     is_last_message_stale,
     discord_message_to_message,
@@ -45,10 +45,8 @@ async def on_ready():
     for c in EXAMPLE_CONVOS:
         messages = []
         for m in c.messages:
-            if m.user == "Lenard":
-                messages.append(Message(user=client.user.name, text=m.text))
-            else:
-                messages.append(m)
+            messages.append(m)
+            logging.info(f"Trained with message: {m}")
         completion.MY_BOT_EXAMPLE_CONVOS.append(Conversation(messages=messages))
     await tree.sync()
 
@@ -67,7 +65,7 @@ async def chat_command(int: discord.Interaction, message: str):
             return
 
         # block servers not in allow list
-        if should_block(guild=int.guild):
+        if not should_allow(guild=int.guild):
             return
 
         user = int.user
@@ -145,8 +143,7 @@ async def chat_command(int: discord.Interaction, message: str):
 @client.event
 async def on_message(message: DiscordMessage):
     try:
-        # block servers not in allow list
-        if should_block(guild=message.guild):
+        if not should_allow(guild=message.guild):
             return
 
         # ignore messages from the bot
