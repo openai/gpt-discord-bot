@@ -42,8 +42,6 @@ async def on_ready():
         for m in c.messages:
             messages.append(m)
             logging.info(f"Trained with message: {m}")
-        completion.MY_BOT_EXAMPLE_CONVOS.append(
-            Conversation(messages=messages))
     await tree.sync()
 
 

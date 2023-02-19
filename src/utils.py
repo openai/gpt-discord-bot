@@ -1,15 +1,14 @@
+from src.constants import MAX_CHARS_PER_REPLY_MSG, INACTIVATE_THREAD_PREFIX
+import discord
+from typing import Optional, List
+from discord import Message as DiscordMessage
+from src.base import Message
 from src.constants import (
     ALLOWED_SERVER_IDS,
 )
 import logging
 
 logger = logging.getLogger(__name__)
-from src.base import Message
-from discord import Message as DiscordMessage
-from typing import Optional, List
-import discord
-
-from src.constants import MAX_CHARS_PER_REPLY_MSG, INACTIVATE_THREAD_PREFIX
 
 
 def discord_message_to_message(message: DiscordMessage) -> Optional[Message]:
@@ -30,7 +29,7 @@ def discord_message_to_message(message: DiscordMessage) -> Optional[Message]:
 
 def split_into_shorter_messages(message: str) -> List[str]:
     return [
-        message[i : i + MAX_CHARS_PER_REPLY_MSG]
+        message[i: i + MAX_CHARS_PER_REPLY_MSG]
         for i in range(0, len(message), MAX_CHARS_PER_REPLY_MSG)
     ]
 
@@ -59,9 +58,10 @@ async def close_thread(thread: discord.Thread):
 
 def should_allow(guild: Optional[discord.Guild]) -> bool:
     if guild is None:
-        logger.info(f"DM not supported")
+        logger.error(f"DM not supported.")
         return False
     if guild.id and guild.id not in ALLOWED_SERVER_IDS:
-        logger.info(f"Guild {guild} with id {guild.id} does not have access to wenard.")
+        logger.error(
+            f"Guild {guild} with id {guild.id} does not have access to wenard.")
         return False
     return True
