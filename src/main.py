@@ -6,7 +6,6 @@ from src.constants import (
     BOT_INVITE_URL,
     CONFIG,
     DISCORD_BOT_TOKEN,
-    EXAMPLE_CONVOS,
     ACTIVATE_THREAD_PREFX,
     MAX_THREAD_MESSAGES,
     SECONDS_DELAY_RECEIVING_MSG,
@@ -38,9 +37,7 @@ tree = discord.app_commands.CommandTree(client)
 async def on_ready():
     logger.info(
         f"We have logged in as {client.user}. Invite URL: {BOT_INVITE_URL}")
-    completion.MY_BOT_NAME = client.user.name
-    completion.MY_BOT_EXAMPLE_CONVOS = []
-    for c in EXAMPLE_CONVOS:
+    for c in CONFIG.example_conversations:
         messages = []
         for m in c.messages:
             messages.append(m)

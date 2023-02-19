@@ -34,6 +34,5 @@ A fork of [GPT Discord Bot](https://github.com/openai/gpt-discord-bot).
 
 # Optional configuration
 
-1. If you want moderation messages, create and copy the channel id for each server that you want the moderation messages to send to in `SERVER_TO_MODERATION_CHANNEL`. This should be of the format: `server_id:channel_id,server_id_2:channel_id_2`
 1. If you want to change the personality of the bot, go to `src/config.yaml` and edit the instructions
 1. If you want to change the other settings, edit the values in `src/constants.py`.

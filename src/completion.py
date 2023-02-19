@@ -2,17 +2,10 @@ from enum import Enum
 from dataclasses import dataclass
 import openai
 from typing import Optional, List
-from src.constants import (
-    BOT_INSTRUCTIONS,
-    BOT_NAME,
-    EXAMPLE_CONVOS,
-)
+from src.constants import CONFIG
 import discord
 from src.base import Message, Prompt, Conversation
 from src.utils import split_into_shorter_messages, close_thread, logger
-
-MY_BOT_NAME = BOT_NAME
-MY_BOT_EXAMPLE_CONVOS = EXAMPLE_CONVOS
 
 
 class CompletionResult(Enum):
@@ -35,10 +28,10 @@ async def generate_completion_response(
     try:
         prompt = Prompt(
             header=Message(
-                "System", f"Instructions for {MY_BOT_NAME}: {BOT_INSTRUCTIONS}"
+                "System", f"Instructions for {CONFIG.name}: {CONFIG.instructions}"
             ),
-            examples=MY_BOT_EXAMPLE_CONVOS,
-            convo=Conversation(messages + [Message(MY_BOT_NAME)]),
+            examples=CONFIG.example_conversations,
+            convo=Conversation(messages + [Message(CONFIG.name)]),
         )
         rendered = prompt.render()
         response = openai.Completion.create(
