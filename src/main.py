@@ -20,7 +20,6 @@ from src.utils import (
 )
 from src import completion
 from src.completion import generate_completion_response, process_response
-import pprint
 
 logging.basicConfig(
     format="[%(asctime)s] [%(filename)s:%(lineno)d] %(message)s", level=logging.INFO
@@ -77,14 +76,17 @@ async def wenard_command(interaction: discord.Interaction):
     try:
         if not should_allow(guild=interaction.guild):
             return
-        last_message = await interaction.channel.fetch_message(
-            interaction.channel.last_message_id)
-        logger.info(
-            f"/wenard triggered by {interaction.user} for {last_message.author.name}: {last_message.content[:20]}")
-        message = Message(
-            user=last_message.author.name, text=last_message.content)
-        await interaction.response.defer()
         async with interaction.channel.typing():
+            last_message_id = interaction.channel.last_message_id
+            if last_message_id is None:
+                await interaction.response.send_message("Sorry, I couldn't find the last message.")
+                return
+            last_message = await interaction.channel.fetch_message(last_message_id)
+            logger.info(
+                f"/wenard triggered by {interaction.user} for ({interaction.channel.last_message_id}) {last_message.author.name}: {last_message.content[:20]}")
+            await interaction.response.defer()
+            message = Message(
+                user=last_message.author.name, text=last_message.content)
             response_data = await generate_completion_response(messages=[message], user=interaction.user)
             reply = ''
             if response_data.status == completion.CompletionResult.OK:
