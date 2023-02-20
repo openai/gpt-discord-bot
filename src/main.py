@@ -1,4 +1,7 @@
+from bs4 import BeautifulSoup
+import requests
 import discord
+import openai
 from discord import Message as DiscordMessage
 import logging
 from src.base import Message, Conversation
@@ -152,6 +155,47 @@ async def chat_command(interaction: discord.Interaction, message: str):
         await interaction.response.send_message(
             f"Failed to start chat {str(e)}", ephemeral=True
         )
+
+
+async def summary(url: str) -> str:
+    """Summarize the text."""
+    response = requests.get(url)
+    content = BeautifulSoup(response.text, features='lxml').get_text()
+    rendered = f"Summarize the following web page:\n<|endoftext|>{content}<|endoftext|>"
+    gpt_response = openai.Completion.create(
+        engine="text-davinci-003",
+        prompt=rendered,
+        temperature=1.0,
+        top_p=0.9,
+        max_tokens=512,
+        stop=["<|endoftext|>"],
+    )
+    return gpt_response.choices[0].text.strip()
+
+
+@tree.command(name="summarize", description="beta - Summarize the contents of a url.")
+@discord.app_commands.checks.has_permissions(send_messages=True)
+@discord.app_commands.checks.has_permissions(view_channel=True)
+@discord.app_commands.checks.bot_has_permissions(send_messages=True)
+@discord.app_commands.checks.bot_has_permissions(view_channel=True)
+@discord.app_commands.checks.bot_has_permissions(manage_threads=True)
+async def summarize_command(interaction: discord.Interaction, message: str):
+    try:
+        if not isinstance(interaction.channel, discord.TextChannel):
+            return
+        if not should_allow(guild=interaction.guild):
+            return
+
+        logger.info(
+            f"/summarize triggered by {interaction.user} {message[:20]}")
+        await interaction.response.defer()
+        try:
+            await interaction.followup.send(content=await summary(message.strip()))
+        except:
+            await interaction.followup.send(content="The content was too much for me! I'm sorry.")
+
+    except Exception as e:
+        logger.exception(e)
 
 
 # calls for each message
