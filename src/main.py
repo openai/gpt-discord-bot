@@ -39,11 +39,6 @@ tree = discord.app_commands.CommandTree(client)
 async def on_ready():
     logger.info(
         f"We have logged in as {client.user}. Invite URL: {BOT_INVITE_URL}")
-    for c in CONFIG.example_conversations:
-        messages = []
-        for m in c.messages:
-            messages.append(m)
-            logging.info(f"Trained with message: {m}")
     await tree.sync()
 
 

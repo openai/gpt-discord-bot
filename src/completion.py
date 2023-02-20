@@ -30,7 +30,6 @@ async def generate_completion_response(
             header=Message(
                 "System", f"Instructions for {CONFIG.name}: {CONFIG.instructions}"
             ),
-            examples=CONFIG.example_conversations,
             convo=Conversation(messages + [Message(CONFIG.name)]),
         )
         rendered = prompt.render()
