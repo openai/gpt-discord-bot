@@ -4,6 +4,7 @@ import openai
 from src.moderation import moderate_message
 from typing import Optional, List
 from src.constants import (
+    OPENAI_MODEL,
     BOT_INSTRUCTIONS,
     BOT_NAME,
     EXAMPLE_CONVOS,
@@ -49,7 +50,7 @@ async def generate_completion_response(
         )
         rendered = prompt.render()
         response = openai.Completion.create(
-            engine="text-davinci-003",
+            engine=OPENAI_MODEL,
             prompt=rendered,
             temperature=1.0,
             top_p=0.9,
