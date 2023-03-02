@@ -30,6 +30,8 @@ for s in server_ids:
 SERVER_TO_MODERATION_CHANNEL: Dict[int, int] = {}
 server_channels = os.environ.get("SERVER_TO_MODERATION_CHANNEL", "").split(",")
 for s in server_channels:
+    if not s:
+        continue
     values = s.split(":")
     SERVER_TO_MODERATION_CHANNEL[int(values[0])] = int(values[1])
 
