@@ -1,12 +1,15 @@
 from dotenv import load_dotenv
 import os
-from typing import Dict, List
+from typing import List
 
 load_dotenv()
 
 DISCORD_BOT_TOKEN = os.environ["DISCORD_BOT_TOKEN"]
 DISCORD_CLIENT_ID = os.environ["DISCORD_CLIENT_ID"]
+
 OPENAI_API_KEY = os.environ["OPENAI_API_KEY"]
+OPENAI_API_URL = os.environ['OPENAI_API_URL']
+OPENAI_MODEL = os.environ['OPENAI_MODEL']
 
 ALLOWED_SERVER_IDS: List[int] = []
 server_ids = os.environ["ALLOWED_SERVER_IDS"].split(",")

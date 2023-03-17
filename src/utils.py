@@ -1,5 +1,6 @@
 import logging
 import discord
+import re
 from src.base import Message
 from discord import Message as DiscordMessage
 from typing import Optional, List
@@ -34,10 +35,20 @@ def discord_message_to_message(
 
 
 def split_into_shorter_messages(message: str) -> List[str]:
-    return [
-        message[i: i + MAX_CHARS_PER_REPLY_MSG]
-        for i in range(0, len(message), MAX_CHARS_PER_REPLY_MSG)
-    ]
+    indices_object = re.finditer(
+        pattern='```',
+        string=message)
+
+    indices = [index.start() for index in indices_object]
+    indices[1::2] = [x + 4 for x in indices[1::2]]
+    indices.insert(0, 0)
+    indices.append(len(message))
+
+    result = []
+    for i in range(1, len(indices)):
+        result.append(message[indices[i-1]:indices[i]])
+
+    return result
 
 
 def is_last_message_stale(
