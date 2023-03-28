@@ -53,9 +53,9 @@ This bot uses the [OpenAI Python Library](https://github.com/openai/openai-pytho
 
 # Optional configuration
 
-1. If you want moderation messages, create and copy the channel id for each server that you want the moderation messages to send to in `SERVER_TO_MODERATION_CHANNEL`. This should be of the format: `server_id:channel_id,server_id_2:channel_id_2`
-1. If you want to change the personality of the bot, go to `src/config.yaml` and edit the instructions
-1. If you want to change the moderation settings for which messages get flagged or blocked, edit the values in `src/constants.py`. A lower value means less chance of it triggering.
+- If you want to change the model used, you can do so in `OPENAI_MODEL`. Currently only `gpt-3.5-turbo` and `gpt-4` work with the present codebase.
+
+- If you want to change the behavior/personality of the bot, change the system prompt in `SYSTEM_MESSAGE`, with optional variables enclosed in `{`curly braces`}`. Currently the only variables available are `current_date` and `knowledge_cutoff`, with the latter being equivalent to the environment variable of the same name. The former is always in ISO 8601 format.
 
 # FAQ
 
