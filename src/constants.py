@@ -11,6 +11,9 @@ OPENAI_API_KEY = os.environ["OPENAI_API_KEY"]
 OPENAI_API_URL = os.environ['OPENAI_API_URL']
 OPENAI_MODEL = os.environ['OPENAI_MODEL']
 
+SYSTEM_MESSAGE = os.environ["SYSTEM_MESSAGE"]
+KNOWLEDGE_CUTOFF = os.environ["KNOWLEDGE_CUTOFF"]
+
 ALLOWED_SERVER_IDS: List[int] = []
 server_ids = os.environ["ALLOWED_SERVER_IDS"].split(",")
 for s in server_ids:
@@ -36,5 +39,5 @@ MAX_THREAD_MESSAGES = 200
 ACTIVATE_THREAD_PREFX = "💬✅"
 INACTIVATE_THREAD_PREFIX = "💬❌"
 MAX_CHARS_PER_REPLY_MSG = (
-    1500  # discord has a 2k limit, we just break message into 1.5k
+    2000  # discord has a 2k limit
 )
