@@ -1,3 +1,4 @@
+import datetime
 import discord
 from discord import Message as DiscordMessage
 import logging
@@ -8,6 +9,8 @@ from src.constants import (
     ACTIVATE_THREAD_PREFX,
     MAX_THREAD_MESSAGES,
     SECONDS_DELAY_RECEIVING_MSG,
+    SYSTEM_MESSAGE,
+    KNOWLEDGE_CUTOFF
 )
 import asyncio
 from src.utils import (
@@ -78,8 +81,17 @@ async def chat_command(int: discord.Interaction, message: str):
             auto_archive_duration=60,
         )
         async with thread.typing():
+            # prepare the initial system message
+            current_date = datetime.datetime.now().strftime("%Y-%m-%d")
+            system_message = SYSTEM_MESSAGE.format(
+                knowledge_cutoff=KNOWLEDGE_CUTOFF,
+                current_date=current_date
+            )
             # fetch completion
-            messages = [Message(user='system', text=message)]
+            messages = [
+                Message(user='system', text=system_message),
+                Message(user='user', text=message)
+            ]
             response_data = await generate_completion_response(
                 messages=messages,
             )
@@ -145,6 +157,13 @@ async def on_message(message: DiscordMessage):
             f"Thread message to process - {message.author}: {message.content[:50]} - {thread.name} {thread.jump_url}"
         )
 
+        # prepare the initial system message
+        current_date = datetime.datetime.now().strftime("%Y-%m-%d")
+        system_message = SYSTEM_MESSAGE.format(
+            knowledge_cutoff=KNOWLEDGE_CUTOFF,
+            current_date=current_date
+        )
+
         channel_messages = [
             discord_message_to_message(
                 message=message,
@@ -152,6 +171,7 @@ async def on_message(message: DiscordMessage):
             async for message in thread.history(limit=MAX_THREAD_MESSAGES)
         ]
         channel_messages = [x for x in channel_messages if x is not None]
+        channel_messages.append(Message(user='system', text=system_message))
         channel_messages.reverse()
 
         # generate the response
