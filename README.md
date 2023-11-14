@@ -49,6 +49,15 @@ This bot uses the [OpenAI Python Library](https://github.com/openai/openai-pytho
     You should see an invite URL in the console. Copy and paste it into your browser to add the bot to your server.
     Note: make sure you are using Python 3.9+ (check with python --version)
 
+## Use docker 
+
+You can use the following command to run a dockerized version of this: 
+
+```sh
+docker run -e SERVER_TO_MODERATION_CHANNEL=1:1 -e ALLOWED_SERVER_IDS=your_server_ID -e DISCORD_BOT_TOKEN=your_bot_token -e DISCORD_CLIENT_ID=your_client_ID -e OPENAI_API_KEY=your_API_key ghcr.io/openai/gpt-discord-bot:main
+```
+
+
 # Optional configuration
 
 1. If you want moderation messages, create and copy the channel id for each server that you want the moderation messages to send to in `SERVER_TO_MODERATION_CHANNEL`. This should be of the format: `server_id:channel_id,server_id_2:channel_id_2`
