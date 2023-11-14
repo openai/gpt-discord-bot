@@ -9,6 +9,7 @@ from src.constants import (
     BOT_INSTRUCTIONS,
     BOT_NAME,
     EXAMPLE_CONVOS,
+    MODEL,
 )
 import discord
 from src.base import Message, Prompt, Conversation
@@ -52,7 +53,7 @@ async def generate_completion_response(
         )
         rendered = prompt.full_render(MY_BOT_NAME)
         response = await client.chat.completions.create(
-            model="gpt-3.5-turbo",
+            model=MODEL,
             messages=rendered,
             temperature=1.0,
             top_p=0.9,
