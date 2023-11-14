@@ -1,3 +1,5 @@
+from openai._compat import model_dump
+
 from src.constants import (
     SERVER_TO_MODERATION_CHANNEL,
     MODERATION_VALUES_FOR_BLOCKED,
@@ -19,19 +21,7 @@ def moderate_message(
     )
     category_scores = moderation_response.results[0].category_scores or {}
 
-    category_score_items = {
-        "harassment": category_scores.harassment,
-        "harassment/threatening": category_scores.harassment_threatening,
-        "hate": category_scores.hate,
-        "hate/threatening": category_scores.hate_threatening,
-        "self-harm": category_scores.self_minus_harm,
-        "self-harm/instructions": category_scores.self_minus_harm_instructions,
-        "self-harm/intent": category_scores.self_minus_harm_intent,
-        "sexual": category_scores.sexual,
-        "sexual/minors": category_scores.sexual_minors,
-        "violence": category_scores.violence,
-        "violence/graphic": category_scores.violence_graphic,
-    }
+    category_score_items = model_dump(category_scores)
 
     blocked_str = ""
     flagged_str = ""
