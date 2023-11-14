@@ -43,11 +43,40 @@ class Prompt:
     examples: List[Conversation]
     convo: Conversation
 
-    def render(self):
+    def full_render(self, bot_name):
+        messages = [
+            {
+                "role": "system",
+                "content": self.render_system_prompt(),
+            }
+        ]
+        for message in self.render_messages(bot_name):
+            messages.append(message)
+        return messages
+
+    def render_system_prompt(self):
         return f"\n{SEPARATOR_TOKEN}".join(
             [self.header.render()]
             + [Message("System", "Example conversations:").render()]
             + [conversation.render() for conversation in self.examples]
-            + [Message("System", "Current conversation:").render()]
-            + [self.convo.render()],
+            + [
+                Message(
+                    "System", "Now, you will work with the actual current conversation."
+                ).render()
+            ]
         )
+
+    def render_messages(self, bot_name):
+        for message in self.convo.messages:
+            if not bot_name in message.user:
+                yield {
+                    "role": "user",
+                    "name": message.user,
+                    "content": message.text,
+                }
+            else:
+                yield {
+                    "role": "assistant",
+                    "name": bot_name,
+                    "content": message.text,
+                }
