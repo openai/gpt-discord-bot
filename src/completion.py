@@ -57,7 +57,7 @@ async def generate_completion_response(
             model=thread_config.model,
             messages=rendered,
             temperature=thread_config.temperature,
-            top_p=0.9,  # TODO: top_p shouldn't be used with temperature, technically we should fix this to 1.0 for consistency?
+            top_p=0.9,
             max_tokens=thread_config.max_tokens,
             stop=["<|endoftext|>"],
         )
