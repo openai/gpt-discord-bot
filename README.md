@@ -23,12 +23,12 @@ This bot uses the [OpenAI Python Library](https://github.com/openai/openai-pytho
 
 # Features
 
-- `/chat` starts a public thread, with a `message` argument which is the first user message passed to the bot
+- `/chat` starts a public thread, with a `message` argument which is the first user message passed to the bot. You can optionally also adjust the `temperature` and `max_tokens` parameters.
 - The model will generate a reply for every user message in any threads started with `/chat`
 - The entire thread will be passed to the model for each request, so the model will remember previous messages in the thread
 - when the context limit is reached, or a max message count is reached in the thread, bot will close the thread
 - you can customize the bot instructions by modifying `config.yaml`
-- you can change the model, the hardcoded value is `gpt-3.5-turbo`
+- you can change the model, the default value is `gpt-3.5-turbo`
 
 # Setup
 

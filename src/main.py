@@ -1,7 +1,10 @@
+from collections import defaultdict
+from typing import Literal, Optional, Union
+
 import discord
-from discord import Message as DiscordMessage
+from discord import Message as DiscordMessage, app_commands
 import logging
-from src.base import Message, Conversation
+from src.base import Message, Conversation, ThreadConfig
 from src.constants import (
     BOT_INVITE_URL,
     DISCORD_BOT_TOKEN,
@@ -9,6 +12,8 @@ from src.constants import (
     ACTIVATE_THREAD_PREFX,
     MAX_THREAD_MESSAGES,
     SECONDS_DELAY_RECEIVING_MSG,
+    AVAILABLE_MODELS,
+    DEFAULT_MODEL,
 )
 import asyncio
 from src.utils import (
@@ -35,6 +40,7 @@ intents.message_content = True
 
 client = discord.Client(intents=intents)
 tree = discord.app_commands.CommandTree(client)
+thread_data = defaultdict()
 
 
 @client.event
@@ -60,7 +66,21 @@ async def on_ready():
 @discord.app_commands.checks.bot_has_permissions(send_messages=True)
 @discord.app_commands.checks.bot_has_permissions(view_channel=True)
 @discord.app_commands.checks.bot_has_permissions(manage_threads=True)
-async def chat_command(int: discord.Interaction, message: str):
+@app_commands.describe(message="The first prompt to start the chat with")
+@app_commands.describe(model="The model to use for the chat")
+@app_commands.describe(
+    temperature="Controls randomness. Higher values mean more randomness. Between 0 and 1"
+)
+@app_commands.describe(
+    max_tokens="How many tokens the model should output at max for each message."
+)
+async def chat_command(
+    int: discord.Interaction,
+    message: str,
+    model: AVAILABLE_MODELS = DEFAULT_MODEL,
+    temperature: Optional[float] = 1.0,
+    max_tokens: Optional[int] = 512,
+):
     try:
         # only support creating thread in text channel
         if not isinstance(int.channel, discord.TextChannel):
@@ -72,6 +92,23 @@ async def chat_command(int: discord.Interaction, message: str):
 
         user = int.user
         logger.info(f"Chat command by {user} {message[:20]}")
+
+        # Check for valid temperature
+        if temperature is not None and (temperature < 0 or temperature > 1):
+            await int.response.send_message(
+                f"You supplied an invalid temperature: {temperature}. Temperature must be between 0 and 1.",
+                ephemeral=True,
+            )
+            return
+
+        # Check for valid max_tokens
+        if max_tokens is not None and (max_tokens < 1 or max_tokens > 4096):
+            await int.response.send_message(
+                f"You supplied an invalid max_tokens: {max_tokens}. Max tokens must be between 1 and 4096.",
+                ephemeral=True,
+            )
+            return
+
         try:
             # moderate the message
             flagged_str, blocked_str = moderate_message(message=message, user=user)
@@ -93,6 +130,9 @@ async def chat_command(int: discord.Interaction, message: str):
                 description=f"<@{user.id}> wants to chat! 🤖💬",
                 color=discord.Color.green(),
             )
+            embed.add_field(name="model", value=model)
+            embed.add_field(name="temperature", value=temperature, inline=True)
+            embed.add_field(name="max_tokens", value=max_tokens, inline=True)
             embed.add_field(name=user.name, value=message)
 
             if len(flagged_str) > 0:
@@ -124,11 +164,14 @@ async def chat_command(int: discord.Interaction, message: str):
             reason="gpt-bot",
             auto_archive_duration=60,
         )
+        thread_data[thread.id] = ThreadConfig(
+            model=model, max_tokens=max_tokens, temperature=temperature
+        )
         async with thread.typing():
             # fetch completion
             messages = [Message(user=user.name, text=message)]
             response_data = await generate_completion_response(
-                messages=messages, user=user
+                messages=messages, user=user, thread_config=thread_data[thread.id]
             )
             # send the result
             await process_response(
@@ -245,7 +288,9 @@ async def on_message(message: DiscordMessage):
         # generate the response
         async with thread.typing():
             response_data = await generate_completion_response(
-                messages=channel_messages, user=message.author
+                messages=channel_messages,
+                user=message.author,
+                thread_config=thread_data[thread.id],
             )
 
         if is_last_message_stale(

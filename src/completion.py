@@ -9,10 +9,9 @@ from src.constants import (
     BOT_INSTRUCTIONS,
     BOT_NAME,
     EXAMPLE_CONVOS,
-    MODEL,
 )
 import discord
-from src.base import Message, Prompt, Conversation
+from src.base import Message, Prompt, Conversation, ThreadConfig
 from src.utils import split_into_shorter_messages, close_thread, logger
 from src.moderation import (
     send_moderation_flagged_message,
@@ -38,10 +37,12 @@ class CompletionData:
     reply_text: Optional[str]
     status_text: Optional[str]
 
+
 client = AsyncOpenAI()
 
+
 async def generate_completion_response(
-    messages: List[Message], user: str
+    messages: List[Message], user: str, thread_config: ThreadConfig
 ) -> CompletionData:
     try:
         prompt = Prompt(
@@ -53,11 +54,11 @@ async def generate_completion_response(
         )
         rendered = prompt.full_render(MY_BOT_NAME)
         response = await client.chat.completions.create(
-            model=MODEL,
+            model=thread_config.model,
             messages=rendered,
-            temperature=1.0,
-            top_p=0.9,
-            max_tokens=512,
+            temperature=thread_config.temperature,
+            top_p=1.0,
+            max_tokens=thread_config.max_tokens,
             stop=["<|endoftext|>"],
         )
         reply = response.choices[0].message.content.strip()
