@@ -11,7 +11,9 @@ from src.constants import (
     EXAMPLE_CONVOS,
     ACTIVATE_THREAD_PREFX,
     MAX_THREAD_MESSAGES,
-    SECONDS_DELAY_RECEIVING_MSG, AVAILABLE_MODELS, DEFAULT_MODEL,
+    SECONDS_DELAY_RECEIVING_MSG,
+    AVAILABLE_MODELS,
+    DEFAULT_MODEL,
 )
 import asyncio
 from src.utils import (
@@ -64,11 +66,21 @@ async def on_ready():
 @discord.app_commands.checks.bot_has_permissions(send_messages=True)
 @discord.app_commands.checks.bot_has_permissions(view_channel=True)
 @discord.app_commands.checks.bot_has_permissions(manage_threads=True)
-@app_commands.describe(message='The first prompt to start the chat with')
-@app_commands.describe(model='The model to use for the chat')
-@app_commands.describe(temperature='Controls randomness. Higher values mean more randomness. Between 0 and 1')
-@app_commands.describe(max_tokens='How many tokens the model should output at max for each message.')
-async def chat_command(int: discord.Interaction, message: str, model: AVAILABLE_MODELS = DEFAULT_MODEL, temperature: Optional[float] = 1.0, max_tokens: Optional[int] = 512):
+@app_commands.describe(message="The first prompt to start the chat with")
+@app_commands.describe(model="The model to use for the chat")
+@app_commands.describe(
+    temperature="Controls randomness. Higher values mean more randomness. Between 0 and 1"
+)
+@app_commands.describe(
+    max_tokens="How many tokens the model should output at max for each message."
+)
+async def chat_command(
+    int: discord.Interaction,
+    message: str,
+    model: AVAILABLE_MODELS = DEFAULT_MODEL,
+    temperature: Optional[float] = 1.0,
+    max_tokens: Optional[int] = 512,
+):
     try:
         # only support creating thread in text channel
         if not isinstance(int.channel, discord.TextChannel):
@@ -152,7 +164,9 @@ async def chat_command(int: discord.Interaction, message: str, model: AVAILABLE_
             reason="gpt-bot",
             auto_archive_duration=60,
         )
-        thread_data[thread.id] = ThreadConfig(model=model, max_tokens=max_tokens, temperature=temperature)
+        thread_data[thread.id] = ThreadConfig(
+            model=model, max_tokens=max_tokens, temperature=temperature
+        )
         async with thread.typing():
             # fetch completion
             messages = [Message(user=user.name, text=message)]
@@ -274,7 +288,9 @@ async def on_message(message: DiscordMessage):
         # generate the response
         async with thread.typing():
             response_data = await generate_completion_response(
-                messages=channel_messages, user=message.author, thread_config=thread_data[thread.id]
+                messages=channel_messages,
+                user=message.author,
+                thread_config=thread_data[thread.id],
             )
 
         if is_last_message_stale(

@@ -2,9 +2,7 @@ from dotenv import load_dotenv
 import os
 import dacite
 import yaml
-from typing import Dict, List, Literal, Union
-
-from numpy import arange
+from typing import Dict, List, Literal
 
 from src.base import Config
 
