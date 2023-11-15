@@ -38,6 +38,13 @@ class Config:
 
 
 @dataclass(frozen=True)
+class ThreadConfig:
+    model: str
+    max_tokens: int
+    temperature: float
+
+
+@dataclass(frozen=True)
 class Prompt:
     header: Message
     examples: List[Conversation]
