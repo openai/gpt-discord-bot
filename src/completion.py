@@ -57,7 +57,7 @@ async def generate_completion_response(
             model=thread_config.model,
             messages=rendered,
             temperature=thread_config.temperature,
-            top_p=0.9,
+            top_p=1.0,
             max_tokens=thread_config.max_tokens,
             stop=["<|endoftext|>"],
         )
