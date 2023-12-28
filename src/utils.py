@@ -21,10 +21,10 @@ def discord_message_to_message(message: DiscordMessage) -> Optional[Message]:
     ):
         field = message.reference.cached_message.embeds[0].fields[0]
         if field.value:
-            return Message(user=field.name, text=field.value)
+            return Message(user=field.name.replace('.', ''), text=field.value)
     else:
         if message.content:
-            return Message(user=message.author.name, text=message.content)
+            return Message(user=message.author.name.replace('.', ''), text=message.content)
     return None
 
 
@@ -65,6 +65,6 @@ def should_block(guild: Optional[discord.Guild]) -> bool:
 
     if guild.id and guild.id not in ALLOWED_SERVER_IDS:
         # not allowed in this server
-        logger.info(f"Guild {guild} not allowed")
+        logger.info(f"Guild {guild} not allowed: {guild.id}")
         return True
     return False

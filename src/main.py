@@ -78,7 +78,7 @@ async def chat_command(
     int: discord.Interaction,
     message: str,
     model: AVAILABLE_MODELS = DEFAULT_MODEL,
-    temperature: Optional[float] = 1.0,
+    temperature: Optional[float] = 0.5,
     max_tokens: Optional[int] = 512,
 ):
     try:
@@ -127,13 +127,12 @@ async def chat_command(
                 return
 
             embed = discord.Embed(
-                description=f"<@{user.id}> wants to chat! 🤖💬",
-                color=discord.Color.green(),
+                description=f"{message}",
             )
             embed.add_field(name="model", value=model)
             embed.add_field(name="temperature", value=temperature, inline=True)
             embed.add_field(name="max_tokens", value=max_tokens, inline=True)
-            embed.add_field(name=user.name, value=message)
+            embed.add_field(name="author", value=user.name)
 
             if len(flagged_str) > 0:
                 # message was flagged
@@ -169,7 +168,7 @@ async def chat_command(
         )
         async with thread.typing():
             # fetch completion
-            messages = [Message(user=user.name, text=message)]
+            messages = [Message(user=user.name.replace('.', ''), text=message)]
             response_data = await generate_completion_response(
                 messages=messages, user=user, thread_config=thread_data[thread.id]
             )
