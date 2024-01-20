@@ -34,6 +34,7 @@ async def generate_completion_response(
                         'model': OPENAI_MODEL,
                         'messages': messages
                     },
+                    headers={'Content-Type': 'application/json'},
                     auth=aiohttp.BasicAuth("", OPENAI_API_KEY)
                     ) as r:
                 if r.status == 200:
@@ -41,10 +42,7 @@ async def generate_completion_response(
                     reply = js['choices'][0]['message']['content']
                     return CompletionData(status=CompletionResult.OK, reply_text=reply, status_text=None)
                 else:
-                    js = await r.json()
-                    code = js['error']['code']
-                    status = CompletionResult.TOO_LONG if code == 'context_length_exceeded' else CompletionResult.ERROR
-                    return CompletionData(status=status, reply_text=None, status_text=js)
+                    return CompletionData(status=CompletionResult.Error, reply_text=None, status_text=str(r))
     except Exception as e:
         logger.exception(e)
         return CompletionData(
