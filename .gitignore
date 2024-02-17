@@ -1,6 +1,7 @@
-env
-.env
 __pycache__/
 */.DS_Store
 .DS_Store
 
+/.vs/gpt-discord-bot/FileContentIndex
+/.vs/gpt-discord-bot/v17
+/.vs
