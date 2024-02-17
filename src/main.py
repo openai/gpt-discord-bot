@@ -110,21 +110,21 @@ async def chat_command(
             return
 
         try:
-            # moderate the message
-            # flagged_str, blocked_str = moderate_message(message=message, user=user)
-            # await send_moderation_blocked_message(
-                # guild=int.guild,
-                # user=user,
-                # blocked_str=blocked_str,
-                # message=message,
-            # )
-            # if len(blocked_str) > 0:
-                # # message was blocked
-                # await int.response.send_message(
-                    # f"Your prompt has been blocked by moderation.\n{message}",
-                    # ephemeral=True,
-                # )
-                # return
+            moderate the message
+            flagged_str, blocked_str = moderate_message(message=message, user=user)
+            await send_moderation_blocked_message(
+               guild=int.guild,
+               user=user,
+                blocked_str=blocked_str,
+                message=message,
+            )
+            if len(blocked_str) > 0:
+                # message was blocked
+                await int.response.send_message(
+                    f"Your prompt has been blocked by moderation.\n{message}",
+                    ephemeral=True,
+                )
+                return
 
             embed = discord.Embed(
                 description=f"<@{user.id}> wants to chat! 🤖💬",
@@ -135,21 +135,21 @@ async def chat_command(
             embed.add_field(name="max_tokens", value=max_tokens, inline=True)
             embed.add_field(name=user.name, value=message)
 
-            # if len(flagged_str) > 0:
-                # # message was flagged
-                # embed.color = discord.Color.yellow()
-                # embed.title = "⚠️ This prompt was flagged by moderation."
+            if len(flagged_str) > 0:
+                # message was flagged
+                embed.color = discord.Color.yellow()
+                embed.title = "⚠️ This prompt was flagged by moderation."
 
             await int.response.send_message(embed=embed)
             response = await int.original_response()
 
-            # await send_moderation_flagged_message(
-                # guild=int.guild,
-                # user=user,
-                # flagged_str=flagged_str,
-                # message=message,
-                # url=response.jump_url,
-            # )
+            await send_moderation_flagged_message(
+                guild=int.guild,
+                user=user,
+                flagged_str=flagged_str,
+                message=message,
+                url=response.jump_url,
+            )
         except Exception as e:
             logger.exception(e)
             await int.response.send_message(
@@ -220,16 +220,16 @@ async def on_message(message: DiscordMessage):
             await close_thread(thread=thread)
             return
 
-        # # moderate the message
-        # flagged_str, blocked_str = moderate_message(
-            # message=message.content, user=message.author
-        # )
-        # await send_moderation_blocked_message(
-            # guild=message.guild,
-            # user=message.author,
-            # blocked_str=blocked_str,
-            # message=message.content,
-        # )
+        # moderate the message
+        flagged_str, blocked_str = moderate_message(
+            message=message.content, user=message.author
+        )
+        await send_moderation_blocked_message(
+            guild=message.guild,
+            user=message.author,
+            blocked_str=blocked_str,
+            message=message.content,
+        )
         # if len(blocked_str) > 0:
             # try:
                 # await message.delete()

@@ -19,7 +19,7 @@ def moderate_message(
     message: str, user: str
 ) -> Tuple[str, str]:  # [flagged_str, blocked_str]
     moderation_response = client.chat.completions.create(
-        input=message, model="LoneStriker_OrcaMaid-v3-13b-32k-5.0bpw-h6-exl2"
+        input=message, model="text-moderation-latest"
     )
     category_scores = moderation_response.results[0].category_scores or {}
 
@@ -27,14 +27,6 @@ def moderate_message(
 
     blocked_str = ""
     flagged_str = ""
-    for category, score in category_score_items.items():
-        if score > MODERATION_VALUES_FOR_BLOCKED.get(category, 1.0):
-            blocked_str += f"({category}: {score})"
-            logger.info(f"blocked {user} {category} {score}")
-            break
-        if score > MODERATION_VALUES_FOR_FLAGGED.get(category, 1.0):
-            flagged_str += f"({category}: {score})"
-            logger.info(f"flagged {user} {category} {score}")
     return (flagged_str, blocked_str)
 
 
