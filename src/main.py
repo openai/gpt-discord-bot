@@ -111,6 +111,7 @@ async def chat_command(
 
         try:
             # moderate the message
+           
             # flagged_str, blocked_str = moderate_message(message=message, user=user)
             # await send_moderation_blocked_message(
                 # guild=int.guild,
@@ -160,7 +161,7 @@ async def chat_command(
         # create the thread
         thread = await response.create_thread(
             name=f"{ACTIVATE_THREAD_PREFX} {user.name[:20]} - {message[:30]}",
-            slowmode_delay=1,
+            slowmode_delay=5,
             reason="gpt-bot",
             auto_archive_duration=60,
         )

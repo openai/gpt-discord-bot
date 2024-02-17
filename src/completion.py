@@ -57,7 +57,7 @@ async def generate_completion_response(
         )
         rendered = prompt.full_render(MY_BOT_NAME)
         response = await client.chat.completions.create(
-            model=thread_config.model,
+            model='LoneStriker_FlatOrcamaid-13b-v0.2-5.0bpw-h6-exl2',
             messages=rendered,
             temperature=thread_config.temperature,
             top_p=1.0,
