@@ -21,6 +21,7 @@ EXAMPLE_CONVOS = CONFIG.example_conversations
 
 DISCORD_BOT_TOKEN = os.environ["DISCORD_BOT_TOKEN"]
 DISCORD_CLIENT_ID = os.environ["DISCORD_CLIENT_ID"]
+OPENAI_API_BASE = os.environ["OPENAI_API_BASE"]
 OPENAI_API_KEY = os.environ["OPENAI_API_KEY"]
 DEFAULT_MODEL = os.environ["DEFAULT_MODEL"]
 
@@ -39,31 +40,31 @@ for s in server_channels:
 BOT_INVITE_URL = f"https://discord.com/api/oauth2/authorize?client_id={DISCORD_CLIENT_ID}&permissions=328565073920&scope=bot"
 
 MODERATION_VALUES_FOR_BLOCKED = {
-    "harassment": 0.5,
-    "harassment/threatening": 0.1,
-    "hate": 0.5,
-    "hate/threatening": 0.1,
-    "self-harm": 0.2,
-    "self-harm/instructions": 0.5,
-    "self-harm/intent": 0.7,
-    "sexual": 0.5,
-    "sexual/minors": 0.2,
-    "violence": 0.7,
-    "violence/graphic": 0.8,
+    "harassment": 1.0,
+    "harassment/threatening": 1.0,
+    "hate": 1.0,
+    "hate/threatening": 1.0,
+    "self-harm": 1.0,
+    "self-harm/instructions": 1.0,
+    "self-harm/intent": 1.0,
+    "sexual": 1.0,
+    "sexual/minors": 1.0,
+    "violence": 1.0,
+    "violence/graphic": 1.0,
 }
 
 MODERATION_VALUES_FOR_FLAGGED = {
-    "harassment": 0.5,
-    "harassment/threatening": 0.1,
-    "hate": 0.4,
-    "hate/threatening": 0.05,
-    "self-harm": 0.1,
-    "self-harm/instructions": 0.5,
-    "self-harm/intent": 0.7,
-    "sexual": 0.3,
-    "sexual/minors": 0.1,
-    "violence": 0.1,
-    "violence/graphic": 0.1,
+    "harassment": 1.0,
+    "harassment/threatening": 1.0,
+    "hate": 1.0,
+    "hate/threatening": 1.0,
+    "self-harm": 1.0,
+    "self-harm/instructions": 1.0,
+    "self-harm/intent": 1.0,
+    "sexual": 1.0,
+    "sexual/minors": 1.0,
+    "violence": 1.0,
+    "violence/graphic": 1.0,
 }
 
 SECONDS_DELAY_RECEIVING_MSG = (
@@ -76,4 +77,4 @@ MAX_CHARS_PER_REPLY_MSG = (
     1500  # discord has a 2k limit, we just break message into 1.5k
 )
 
-AVAILABLE_MODELS = Literal["gpt-3.5-turbo", "gpt-4", "gpt-4-1106-preview", "gpt-4-32k"]
+AVAILABLE_MODELS = Literal["gpt-3.5-turbo", "gpt-4", "gpt-4-1106-preview", "gpt-4-32k", "LoneStriker_OrcaMaid-v3-13b-32k-5.0bpw-h6-exl2"]

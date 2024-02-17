@@ -5,6 +5,8 @@ from src.constants import (
     MODERATION_VALUES_FOR_BLOCKED,
     MODERATION_VALUES_FOR_FLAGGED,
 )
+from dotenv import load_dotenv
+load_dotenv() # make sure the environment variables are set before import
 from openai import OpenAI
 
 client = OpenAI()
@@ -16,8 +18,8 @@ from src.utils import logger
 def moderate_message(
     message: str, user: str
 ) -> Tuple[str, str]:  # [flagged_str, blocked_str]
-    moderation_response = client.moderations.create(
-        input=message, model="text-moderation-latest"
+    moderation_response = client.chat.completions.create(
+        input=message, model="LoneStriker_OrcaMaid-v3-13b-32k-5.0bpw-h6-exl2"
     )
     category_scores = moderation_response.results[0].category_scores or {}
 

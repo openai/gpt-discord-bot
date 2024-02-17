@@ -1,6 +1,9 @@
 from enum import Enum
 from dataclasses import dataclass
 import openai
+from dotenv import load_dotenv
+load_dotenv() # make sure the environment variables are set before import
+
 from openai import AsyncOpenAI
 
 from src.moderation import moderate_message
